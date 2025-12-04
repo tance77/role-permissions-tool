@@ -176,7 +176,7 @@ const triggerImport = () => {
   <div class="min-h-screen flex flex-col bg-background">
     <header class="bg-card border-b border-border px-6 py-6">
       <div class="max-w-7xl mx-auto">
-        <h1 class="text-2xl font-bold text-foreground mb-0.5 tracking-tight">Role Creator</h1>
+        <h1 class="text-2xl font-bold text-foreground mb-0.5 tracking-tight">Role Craft</h1>
         <p class="text-xs text-muted-foreground mb-4">Create and manage permissions and roles visually</p>
         <div class="flex gap-2 flex-wrap">
           <Button @click="triggerImport" variant="outline" size="sm">
