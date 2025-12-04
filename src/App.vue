@@ -96,7 +96,7 @@ const exportData = () => {
   const url = URL.createObjectURL(blob)
   const a = document.createElement('a')
   a.href = url
-  a.download = `roles-and-permissions-${new Date().toISOString().split('T')[0]}.json`
+  a.download = `roles-and-permissions-${new Date().toISOString().split('T')[0]}-${Math.floor(Date.now() / 1000)}.json`
   a.click()
   URL.revokeObjectURL(url)
 }
