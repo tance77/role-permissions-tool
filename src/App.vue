@@ -170,13 +170,13 @@ const triggerImport = () => {
 </script>
 
 <template>
-  <div class="min-h-screen flex flex-col bg-gray-50">
-    <header class="bg-white border-b border-gray-200 px-8 py-12">
+  <div class="min-h-screen flex flex-col bg-background">
+    <header class="bg-card border-b border-border px-6 py-8">
       <div class="max-w-7xl mx-auto">
-        <h1 class="text-5xl font-extrabold text-gray-900 mb-3 tracking-tight">Role Creator</h1>
-        <p class="text-xl text-gray-600 mb-8 font-medium">Create and manage permissions and roles visually</p>
-        <div class="flex gap-3 flex-wrap">
-          <Button @click="triggerImport" variant="outline" class="font-semibold">
+        <h1 class="text-3xl font-bold text-foreground mb-1 tracking-tight">Role Creator</h1>
+        <p class="text-sm text-muted-foreground mb-6">Create and manage permissions and roles visually</p>
+        <div class="flex gap-2 flex-wrap">
+          <Button @click="triggerImport" variant="outline" size="sm">
             Import Data
           </Button>
           <input
@@ -186,25 +186,25 @@ const triggerImport = () => {
               @change="importData"
               class="hidden"
           />
-          <Button @click="exportData" variant="outline" class="font-semibold">
+          <Button @click="exportData" variant="outline" size="sm">
             Export Data
           </Button>
-          <Button @click="showClearAllDialog = true" variant="destructive" class="font-semibold">
+          <Button @click="showClearAllDialog = true" variant="destructive" size="sm">
             Clear All
           </Button>
         </div>
       </div>
     </header>
 
-    <div class="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-8 p-8 max-w-7xl w-full mx-auto items-start">
-      <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+    <div class="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-6 p-6 max-w-7xl w-full mx-auto items-start">
+      <div class="bg-card rounded-lg shadow-sm border border-border overflow-hidden">
         <PermissionManager
             :permissions="permissions"
             @add-permission="addPermission"
             @delete-permission="deletePermission"
         />
       </div>
-      <div class="lg:sticky lg:top-8 bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden max-h-[calc(100vh-6rem)] overflow-y-auto">
+      <div class="lg:sticky lg:top-6 bg-card rounded-lg shadow-sm border border-border overflow-hidden max-h-[calc(100vh-5rem)] overflow-y-auto">
         <RoleBuilder
             :roles="roles"
             @add-role="addRole"
@@ -214,10 +214,10 @@ const triggerImport = () => {
       </div>
     </div>
 
-    <footer class="bg-white border-t border-gray-200 px-8 py-6 mt-auto">
+    <footer class="bg-card border-t border-border px-6 py-4 mt-auto">
       <div class="max-w-7xl mx-auto">
-        <p class="text-sm text-gray-600 font-medium">
-          <span class="font-semibold text-gray-900">How it works:</span> Drag permissions from the left panel into roles on the right. Use Import/Export to save and load your configurations.
+        <p class="text-xs text-muted-foreground">
+          <span class="font-semibold text-foreground">Tip:</span> Drag permissions from the left panel into roles on the right. Use Import/Export to save and load your configurations.
         </p>
       </div>
     </footer>
