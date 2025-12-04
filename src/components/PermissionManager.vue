@@ -145,39 +145,42 @@ const onDragStart = (e: DragEvent, permission: Permission) => {
 </script>
 
 <template>
-  <div class="p-5">
-    <div class="mb-5 pb-5 border-b border-border">
-      <h2 class="text-lg font-bold text-foreground mb-4">Add Permission</h2>
-      <div class="flex flex-col gap-3">
+  <div class="p-4">
+    <div class="mb-4 pb-4 border-b border-border">
+      <h2 class="text-sm font-semibold text-foreground mb-3">Add Permission</h2>
+      <div class="flex flex-col gap-2">
         <Input
           v-model="newPermission.name"
           type="text"
           placeholder="Permission name *"
           @keyup.enter="addPermission"
+          class="h-8 text-sm"
         />
         <Input
           v-model="newPermission.description"
           type="text"
           placeholder="Description"
           @keyup.enter="addPermission"
+          class="h-8 text-sm"
         />
         <Input
           v-model="newPermission.category"
           type="text"
-          placeholder="Category (optional)"
+          placeholder="Category"
           @keyup.enter="addPermission"
+          class="h-8 text-sm"
         />
-        <Button @click="addPermission" size="sm" class="w-full">
+        <Button @click="addPermission" size="sm" class="w-full h-8">
           Add Permission
         </Button>
       </div>
     </div>
 
     <div>
-      <div class="flex justify-between items-center mb-4 gap-4 flex-wrap">
+      <div class="flex justify-between items-center mb-3 gap-3">
         <div>
-          <h3 class="text-sm font-bold text-foreground">Permissions</h3>
-          <p class="text-xs text-muted-foreground mt-0.5">{{ permissions.length }} total</p>
+          <h3 class="text-xs font-semibold text-foreground uppercase tracking-wide">Permissions</h3>
+          <p class="text-xs text-muted-foreground">{{ permissions.length }} total</p>
         </div>
         <Button
           v-if="selectedPermissions.size > 0"
@@ -189,38 +192,39 @@ const onDragStart = (e: DragEvent, permission: Permission) => {
         </Button>
       </div>
 
-      <div v-if="permissions.length === 0" class="p-8 text-center bg-muted rounded-lg border border-dashed border-border">
-        <p class="text-sm text-muted-foreground">No permissions yet. Add some above!</p>
+      <div v-if="permissions.length === 0" class="p-6 text-center bg-muted rounded border border-dashed border-border">
+        <p class="text-xs text-muted-foreground">No permissions yet</p>
       </div>
 
       <Tabs v-else default-value="category" class="w-full" @update:model-value="(value) => groupBy = value as 'action' | 'category'">
-        <TabsList class="mb-4">
-          <TabsTrigger value="action">By Action</TabsTrigger>
-          <TabsTrigger value="category">By Category</TabsTrigger>
+        <TabsList class="mb-3">
+          <TabsTrigger value="action" class="text-xs">By Action</TabsTrigger>
+          <TabsTrigger value="category" class="text-xs">By Category</TabsTrigger>
         </TabsList>
 
-        <div class="flex flex-col gap-6">
+        <div class="flex flex-col gap-4">
         <div
           v-for="(group, groupName) in groupedPermissions"
           :key="groupName"
-          class="border-l-2 border-primary pl-4"
+          class="border-l-2 border-primary pl-3"
         >
-          <div class="flex justify-between items-center mb-3 gap-4 flex-wrap">
-            <div class="flex items-center gap-2">
-              <h4 class="text-sm font-bold text-foreground capitalize">
+          <div class="flex justify-between items-center mb-2 gap-3">
+            <div class="flex items-center gap-1.5">
+              <h4 class="text-xs font-bold text-foreground capitalize">
                 {{ groupName }}
               </h4>
-              <Badge variant="secondary">{{ group.length }}</Badge>
+              <Badge variant="secondary" class="h-4 px-1.5 text-xs">{{ group.length }}</Badge>
             </div>
             <Button
               @click="toggleGroup(group)"
               size="sm"
               :variant="isGroupSelected(group) ? 'default' : 'outline'"
+              class="h-7 text-xs"
             >
-              {{ isGroupSelected(group) ? 'Deselect All' : 'Select All' }}
+              {{ isGroupSelected(group) ? 'Deselect' : 'Select All' }}
             </Button>
           </div>
-          <div class="grid grid-cols-1 gap-2">
+          <div class="grid grid-cols-1 gap-1.5">
             <Card
               v-for="permission in group"
               :key="permission.id"
@@ -234,8 +238,8 @@ const onDragStart = (e: DragEvent, permission: Permission) => {
               @dragstart="(e) => onDragStart(e, permission)"
               @click="togglePermission(permission.id)"
             >
-              <CardContent class="p-3">
-                <div class="flex gap-3 items-start">
+              <CardContent class="p-2">
+                <div class="flex gap-2 items-start">
                   <div class="flex-shrink-0 pt-0.5 pointer-events-none">
                     <Checkbox
                       :id="`permission-${permission.id}`"
@@ -243,20 +247,20 @@ const onDragStart = (e: DragEvent, permission: Permission) => {
                     />
                   </div>
                   <div class="flex-1 min-w-0">
-                    <div class="flex items-center gap-2 flex-wrap mb-1">
-                      <strong class="text-sm font-semibold text-foreground">{{ permission.name }}</strong>
-                      <Badge v-if="permission.category" variant="secondary">{{ permission.category }}</Badge>
+                    <div class="flex items-center gap-1.5 flex-wrap">
+                      <strong class="text-xs font-semibold text-foreground">{{ permission.name }}</strong>
+                      <Badge v-if="permission.category" variant="secondary" class="h-4 px-1.5 text-xs">{{ permission.category }}</Badge>
                     </div>
-                    <p v-if="permission.description" class="text-xs text-muted-foreground m-0 leading-relaxed">
+                    <p v-if="permission.description" class="text-xs text-muted-foreground m-0 mt-0.5 leading-snug">
                       {{ permission.description }}
                     </p>
                   </div>
                   <button
                     @click.stop="deletePermission(permission.id)"
-                    class="flex-shrink-0 w-5 h-5 rounded flex items-center justify-center text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-colors"
+                    class="flex-shrink-0 w-4 h-4 rounded flex items-center justify-center text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-colors"
                     title="Delete permission"
                   >
-                    <X class="size-4"/>
+                    <X class="size-3"/>
                   </button>
                 </div>
               </CardContent>

@@ -171,10 +171,10 @@ const triggerImport = () => {
 
 <template>
   <div class="min-h-screen flex flex-col bg-background">
-    <header class="bg-card border-b border-border px-6 py-8">
+    <header class="bg-card border-b border-border px-6 py-6">
       <div class="max-w-7xl mx-auto">
-        <h1 class="text-3xl font-bold text-foreground mb-1 tracking-tight">Role Creator</h1>
-        <p class="text-sm text-muted-foreground mb-6">Create and manage permissions and roles visually</p>
+        <h1 class="text-2xl font-bold text-foreground mb-0.5 tracking-tight">Role Creator</h1>
+        <p class="text-xs text-muted-foreground mb-4">Create and manage permissions and roles visually</p>
         <div class="flex gap-2 flex-wrap">
           <Button @click="triggerImport" variant="outline" size="sm">
             Import Data
@@ -196,7 +196,7 @@ const triggerImport = () => {
       </div>
     </header>
 
-    <div class="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-6 p-6 max-w-7xl w-full mx-auto items-start">
+    <div class="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-5 p-5 max-w-7xl w-full mx-auto items-start">
       <div class="bg-card rounded-lg shadow-sm border border-border overflow-hidden">
         <PermissionManager
             :permissions="permissions"
@@ -214,10 +214,10 @@ const triggerImport = () => {
       </div>
     </div>
 
-    <footer class="bg-card border-t border-border px-6 py-4 mt-auto">
+    <footer class="bg-card border-t border-border px-6 py-3 mt-auto">
       <div class="max-w-7xl mx-auto">
-        <p class="text-xs text-muted-foreground">
-          <span class="font-semibold text-foreground">Tip:</span> Drag permissions from the left panel into roles on the right. Use Import/Export to save and load your configurations.
+        <p class="text-xs text-muted-foreground leading-relaxed">
+          Drag permissions into roles • Import/Export to save configurations
         </p>
       </div>
     </footer>
