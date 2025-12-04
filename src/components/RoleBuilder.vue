@@ -21,7 +21,10 @@ const groupPermissionsByCategory = (permissions: Permission[]) => {
   const groups: Record<string, Permission[]> = {}
 
   permissions.forEach(permission => {
-    const category = permission.category || 'Uncategorized'
+    // Extract category from permission name (e.g., "users.view" -> "users")
+    const parts = permission.name.split('.')
+    const category = parts.length > 1 ? parts[0] : 'Uncategorized'
+
     if (!groups[category]) {
       groups[category] = []
     }

@@ -21,8 +21,7 @@ const emit = defineEmits<{
 
 const newPermission = ref({
   name: '',
-  description: '',
-  category: ''
+  description: ''
 })
 
 const groupBy = ref<'action' | 'category'>('category')
@@ -60,7 +59,9 @@ const permissionsByCategory = computed(() => {
   const groups: Record<string, Permission[]> = {}
 
   props.permissions.forEach(permission => {
-    const category = permission.category || 'Uncategorized'
+    // Extract category from permission name (e.g., "users.view" -> "users")
+    const parts = permission.name.split('.')
+    const category = parts.length > 1 ? parts[0] : 'Uncategorized'
 
     if (!groups[category]) {
       groups[category] = []
@@ -89,11 +90,10 @@ const addPermission = () => {
     const permission: Permission = {
       id: crypto.randomUUID(),
       name: newPermission.value.name.trim(),
-      description: newPermission.value.description.trim(),
-      category: newPermission.value.category.trim() || undefined
+      description: newPermission.value.description.trim()
     }
     emit('addPermission', permission)
-    newPermission.value = { name: '', description: '', category: '' }
+    newPermission.value = { name: '', description: '' }
   }
 }
 
@@ -161,13 +161,6 @@ const onDragStart = (e: DragEvent, permission: Permission) => {
           v-model="newPermission.description"
           type="text"
           placeholder="Description"
-          @keyup.enter="addPermission"
-          class="h-8 text-sm"
-        />
-        <Input
-          v-model="newPermission.category"
-          type="text"
-          placeholder="Category"
           @keyup.enter="addPermission"
           class="h-8 text-sm"
         />
@@ -248,10 +241,7 @@ const onDragStart = (e: DragEvent, permission: Permission) => {
                     />
                   </div>
                   <div class="flex-1 min-w-0">
-                    <div class="flex items-center gap-1.5 flex-wrap">
-                      <strong class="text-xs font-semibold text-foreground">{{ permission.name }}</strong>
-                      <Badge v-if="permission.category" variant="secondary" class="h-4 px-1.5 text-xs">{{ permission.category }}</Badge>
-                    </div>
+                    <strong class="text-xs font-semibold text-foreground">{{ permission.name }}</strong>
                     <p v-if="permission.description" class="text-xs text-muted-foreground m-0 mt-0.5 leading-snug">
                       {{ permission.description }}
                     </p>
