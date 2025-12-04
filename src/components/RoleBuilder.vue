@@ -187,7 +187,7 @@ const allowDrop = (event: DragEvent) => {
           :key="role.id"
           :class="[
             'overflow-hidden transition-all border rounded-sm',
-            expandedRoles.has(role.id) ? 'border-primary' : 'border-border'
+            expandedRoles.has(role.id) ? 'border-primary/30' : 'border-border'
           ]"
         >
           <CardHeader class="cursor-pointer select-none hover:bg-accent p-3" @click="toggleRole(role.id)">
@@ -229,14 +229,14 @@ const allowDrop = (event: DragEvent) => {
                   v-for="(groupPermissions, category) in groupPermissionsByCategory(role.permissions)"
                   :key="category"
                 >
-                  <div class="px-2 py-1 bg-muted border-b border-border flex items-center gap-1">
-                    <h5 class="text-xs font-bold text-foreground uppercase tracking-wide">{{ category }}</h5>
+                  <div class="px-2 py-1.5 bg-secondary border-b border-border flex items-center gap-1">
+                    <h5 class="text-xs font-bold text-secondary-foreground uppercase tracking-wide">{{ category }}</h5>
                     <Badge variant="outline" class="h-4 px-1.5 text-xs">{{ groupPermissions.length }}</Badge>
                   </div>
                   <div
                     v-for="permission in groupPermissions"
                     :key="permission.id"
-                    class="flex items-center justify-between gap-2 px-2 py-1.5 border-b border-border/50 last:border-b-0 hover:bg-accent transition-colors group"
+                    class="flex items-center justify-between gap-2 px-2 py-1.5 border-b border-border last:border-b-0 hover:bg-accent transition-colors group"
                   >
                     <div class="flex-1 min-w-0">
                       <strong class="text-xs font-semibold text-foreground">{{ permission.name }}</strong>

@@ -14,8 +14,11 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog'
 import {Button} from '@/components/ui/button'
+import { useColorMode } from '@vueuse/core'
 
+useColorMode()
 const STORAGE_KEY = 'role-creator-data'
+
 
 const permissions = ref<Permission[]>([])
 const roles = ref<Role[]>([])

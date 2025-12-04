@@ -207,7 +207,7 @@ const onDragStart = (e: DragEvent, permission: Permission) => {
         <div
           v-for="(group, groupName) in groupedPermissions"
           :key="groupName"
-          class="border-l-2 border-primary pl-3"
+          class="border-l-2 border-primary/30 pl-3"
         >
           <div class="flex justify-between items-center mb-2 gap-3">
             <div class="flex items-center gap-1.5">
@@ -232,8 +232,8 @@ const onDragStart = (e: DragEvent, permission: Permission) => {
               :class="[
                 'cursor-pointer transition-all border rounded-sm',
                 selectedPermissions.has(permission.id)
-                  ? 'border-primary bg-accent'
-                  : 'border-border hover:border-muted-foreground hover:bg-accent'
+                  ? 'border-primary/30 bg-accent'
+                  : 'border-border hover:border-muted-foreground/50 hover:bg-accent'
               ]"
               draggable="true"
               @dragstart="(e: DragEvent) => onDragStart(e, permission)"
