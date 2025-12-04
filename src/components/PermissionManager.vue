@@ -62,7 +62,7 @@ const permissionsByCategory = computed(() => {
   props.permissions.forEach(permission => {
     // Extract category from permission name (e.g., "users.view" -> "users")
     const parts = permission.name.split('.')
-    const category = parts.length > 1 ? parts[0] : 'Uncategorized'
+    const category = parts.length > 1 && parts[0] ? parts[0] : 'Uncategorized'
 
     if (!groups[category]) {
       groups[category] = []
