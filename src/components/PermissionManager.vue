@@ -25,6 +25,7 @@ const newPermission = ref({
 })
 
 const groupBy = ref<'action' | 'category'>('category')
+const showAddForm = ref(false)
 const selectedPermissions = ref<Set<string>>(new Set())
 
 // Group permissions by action (edit, view, delete, etc.)
@@ -94,6 +95,7 @@ const addPermission = () => {
     }
     emit('addPermission', permission)
     newPermission.value = { name: '', description: '' }
+    showAddForm.value = false
   }
 }
 
@@ -147,8 +149,11 @@ const onDragStart = (e: DragEvent, permission: Permission) => {
 
 <template>
   <div class="p-4">
-    <div class="mb-4 pb-4 border-b border-border">
-      <h2 class="text-sm font-semibold text-foreground mb-3">Add Permission</h2>
+    <div v-if="showAddForm" class="mb-4 pb-4 border-b border-border">
+      <div class="flex justify-between items-center mb-3">
+        <h2 class="text-sm font-semibold text-foreground">Add Permission</h2>
+        <Button @click="showAddForm = false" variant="ghost" size="sm" class="h-7 text-xs">Cancel</Button>
+      </div>
       <div class="flex flex-col gap-2">
         <Input
           v-model="newPermission.name"
@@ -170,14 +175,19 @@ const onDragStart = (e: DragEvent, permission: Permission) => {
       </div>
     </div>
 
+    <div v-else class="flex justify-between items-center mb-4 pb-4 border-b border-border">
+      <div>
+        <h2 class="text-xs font-semibold text-foreground uppercase tracking-wide">Permissions</h2>
+        <p class="text-xs text-muted-foreground">{{ permissions.length }} total</p>
+      </div>
+      <Button v-if="permissions.length > 0" @click="showAddForm = true" size="sm" class="h-7 text-xs">
+        + New Permission
+      </Button>
+    </div>
+
     <div>
-      <div class="flex justify-between items-center mb-3 gap-3">
-        <div>
-          <h3 class="text-xs font-semibold text-foreground uppercase tracking-wide">Permissions</h3>
-          <p class="text-xs text-muted-foreground">{{ permissions.length }} total</p>
-        </div>
+      <div v-if="selectedPermissions.size > 0" class="flex justify-end mb-3">
         <Button
-          v-if="selectedPermissions.size > 0"
           @click="clearSelection"
           variant="secondary"
           size="sm"
@@ -186,11 +196,22 @@ const onDragStart = (e: DragEvent, permission: Permission) => {
         </Button>
       </div>
 
-      <div v-if="permissions.length === 0" class="p-6 text-center bg-muted rounded border border-dashed border-border">
-        <p class="text-xs text-muted-foreground">No permissions yet</p>
+      <div v-if="permissions.length === 0 && !showAddForm" class="p-8 text-center bg-muted rounded border border-dashed border-border">
+        <div class="flex flex-col items-center gap-2">
+          <div class="w-10 h-10 rounded-full bg-muted-foreground/20 flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-muted-foreground">
+              <rect width="18" height="11" x="3" y="11" rx="2" ry="2"></rect>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+            </svg>
+          </div>
+          <p class="text-xs text-muted-foreground mb-2">No permissions yet</p>
+          <Button @click="showAddForm = true" size="sm" class="h-7 text-xs">
+            + Add Permission
+          </Button>
+        </div>
       </div>
 
-      <Tabs v-else default-value="category" class="w-full" @update:model-value="(value) => groupBy = value as 'action' | 'category'">
+      <Tabs v-if="permissions.length > 0" default-value="category" class="w-full" @update:model-value="(value) => groupBy = value as 'action' | 'category'">
         <TabsList class="mb-3">
           <TabsTrigger value="action" class="text-xs">By Action</TabsTrigger>
           <TabsTrigger value="category" class="text-xs">By Category</TabsTrigger>
