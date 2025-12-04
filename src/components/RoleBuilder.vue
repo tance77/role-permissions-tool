@@ -31,7 +31,10 @@ const groupPermissionsByCategory = (permissions: Permission[]) => {
   return Object.keys(groups)
     .sort()
     .reduce((acc, key) => {
-      acc[key] = groups[key].sort((a, b) => a.name.localeCompare(b.name))
+      const group = groups[key]
+      if (group) {
+        acc[key] = group.sort((a, b) => a.name.localeCompare(b.name))
+      }
       return acc
     }, {} as Record<string, Permission[]>)
 }

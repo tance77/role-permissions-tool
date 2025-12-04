@@ -35,7 +35,7 @@ const permissionsByAction = computed(() => {
   props.permissions.forEach(permission => {
     // Extract action from permission name (e.g., "users.edit" -> "edit")
     const parts = permission.name.split('.')
-    const action = parts[parts.length - 1]
+    const action = parts[parts.length - 1] || 'unknown'
 
     if (!groups[action]) {
       groups[action] = []
@@ -47,7 +47,10 @@ const permissionsByAction = computed(() => {
   return Object.keys(groups)
     .sort()
     .reduce((acc, key) => {
-      acc[key] = groups[key].sort((a, b) => a.name.localeCompare(b.name))
+      const group = groups[key]
+      if (group) {
+        acc[key] = group.sort((a, b) => a.name.localeCompare(b.name))
+      }
       return acc
     }, {} as Record<string, Permission[]>)
 })
@@ -69,7 +72,10 @@ const permissionsByCategory = computed(() => {
   return Object.keys(groups)
     .sort()
     .reduce((acc, key) => {
-      acc[key] = groups[key].sort((a, b) => a.name.localeCompare(b.name))
+      const group = groups[key]
+      if (group) {
+        acc[key] = group.sort((a, b) => a.name.localeCompare(b.name))
+      }
       return acc
     }, {} as Record<string, Permission[]>)
 })
@@ -121,11 +127,6 @@ const toggleGroup = (group: Permission[]) => {
 
 const isGroupSelected = (group: Permission[]) => {
   return group.length > 0 && group.every(p => selectedPermissions.value.has(p.id))
-}
-
-const isGroupPartiallySelected = (group: Permission[]) => {
-  const selectedCount = group.filter(p => selectedPermissions.value.has(p.id)).length
-  return selectedCount > 0 && selectedCount < group.length
 }
 
 const clearSelection = () => {
@@ -235,7 +236,7 @@ const onDragStart = (e: DragEvent, permission: Permission) => {
                   : 'border-border hover:border-muted-foreground hover:bg-accent'
               ]"
               draggable="true"
-              @dragstart="(e) => onDragStart(e, permission)"
+              @dragstart="(e: DragEvent) => onDragStart(e, permission)"
               @click="togglePermission(permission.id)"
             >
               <CardContent class="p-2">
